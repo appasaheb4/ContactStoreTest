@@ -34,4 +34,4 @@ export const insert = async ( details, inserted = true ) => {
 export const deleteDb = async () => {
 	await db.deleteDb()
 	return true;
-}  
+}       
