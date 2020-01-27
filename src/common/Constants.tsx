@@ -1,6 +1,5 @@
 import Config from 'react-native-config';
 
-
 //Local Database
 export const localDB = {
 	dbName: Config.DB_NAME,
@@ -9,12 +8,11 @@ export const localDB = {
 	}
 };
 
-// const assetsImages = "../assets/images/";
-// export const images = {
-// 	launchScreen: {
-// 		appiocn: require( assetsImages + 'launchscreen/Appiocn.png' )
-// 	},
-// };
+
+const assetsImages = "../assets/images/";
+export const images = {
+	companyLogo: require( assetsImages + 'companylogo.png' )
+};
 
 // const assetsIcons = '../assets/icons/';
 // export const icons = {
@@ -22,4 +20,8 @@ export const localDB = {
 // 		home: require( assetsIcons + 'dashboardScreen/home.png' ),
 // 	}
 // };
+
+export const asyncStorageKeys = {
+	rootViewController: 'rootViewController'
+};
 
