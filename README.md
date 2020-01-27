@@ -15,7 +15,7 @@ npm run android
 react-native ios
 ```   
     
-
+  
 Make sure you have a `.env.dev` similar to `.env.example` in your project's root directory before running ContactStoreTest.
    
     
