@@ -80,7 +80,7 @@ export default function ContactList( props ) {
                     enabledGestureInteraction={ true }
                     overdragResistanceFactor={ 0 }
                     ref={ ContactBottomSheet }
-                    snapPoints={ [ 70, hp( '80%' ) ] }
+                    snapPoints={ [ 70, hp( '90%' ) ] }
                     initialSnap={ 1 }
                     renderContent={ renderMobileVerificationModalContent }
                     renderHeader={ renderMobileVerificaitonModalHeader }
