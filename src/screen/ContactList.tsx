@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     View,
     StyleSheet,
     SafeAreaView,
+    Dimensions,
 } from 'react-native';
 import {
     Container,
@@ -28,16 +29,12 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Animated from 'react-native-reanimated';
 
 import { ContactListModalContent, ModalHeader } from "ContactStoreTestComponents/Modal/ModalBottomSheet";
 
-//TODO: redux
-import { useDispatch, useSelector } from 'react-redux';
-import { onFetchDb } from "ContactStoreTestRedux/actions/storage";
 
 export default function ContactList( props ) {
-    const dispatch = useDispatch();
+
 
     const ContactBottomSheet = useRef( null );
 
@@ -74,16 +71,22 @@ export default function ContactList( props ) {
                 >
 
 
-                    <BottomSheet
-                        enabledInnerScrolling={ true }
-                        ref={ ContactBottomSheet }
-                        snapPoints={ [ 70, hp( '80%' ) ] }
-                        renderContent={ renderMobileVerificationModalContent }
-                        renderHeader={ renderMobileVerificaitonModalHeader }
-                    />
+
+
+
                 </Content>
+                <BottomSheet
+                    enabledInnerScrolling={ true }
+                    enabledGestureInteraction={ true }
+                    overdragResistanceFactor={ 0 }
+                    ref={ ContactBottomSheet }
+                    snapPoints={ [ 70, hp( '80%' ) ] }
+                    initialSnap={ 1 }
+                    renderContent={ renderMobileVerificationModalContent }
+                    renderHeader={ renderMobileVerificaitonModalHeader }
+                />
             </SafeAreaView>
-        </Container >
+        </Container>
     );
 }
 
