@@ -1,7 +1,7 @@
 /**
  * @format
  */
-
+import React, { useEffect } from 'react';
 import { AppRegistry } from 'react-native';
 import { name as appName } from './app.json';
 
@@ -20,4 +20,5 @@ export default function ContactStoreTest ( props )
     )
 }
 
+console.disableYellowBox = true;
 AppRegistry.registerComponent( appName, () => ContactStoreTest );
