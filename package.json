@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "android": "ENVFILE=.env.dev react-native run-android",
-    "ios": "ENVFILE=.env.dev -native run-ios",
+    "android-relase": "export ENVFILE=.env.dev && cd android && ./gradlew assembleRelease && cd ..",
+    "android-relase-run": "ENVFILE=.env.dev react-native run-android --variant=release",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
