@@ -136,6 +136,14 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+release {
+storeFile file("contactlist.keystore")
+ storePassword "developer"
+keyAlias "contactlist"
+ keyPassword "developer"
+ }
+ }
     splits {
         abi {
             reset()
