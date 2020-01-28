@@ -1,12 +1,15 @@
 import { put, call } from "redux-saga/effects";
 import { createWatcher } from "../utils/utilities";
-import { initialize, fetch, deleteDb } from "../../storage/DatabaseManager";
+import { initialize, fetch, insert, deleteDb } from "../../storage/DatabaseManager";
 import AsyncStorage from "@react-native-community/async-storage";
 
 import {
     INITDB,
     GET_DATA_DB,
     fetchDb,
+    onFetchDb,
+    INSERT_DB,
+    fetchInsertDb,
     DELETE_DB,
     fetchDeleteDb
 } from "../actions/storage";
@@ -25,6 +28,25 @@ function* initDbWorker() {
 export const initDbWatcher = createWatcher(
     initDbWorker,
     INITDB
+);
+
+function* insertDbWorker( payload ) {
+    let { data } = payload;
+    try {
+        console.log( { payload } );
+        console.log( { insertdata: data } );
+        yield insert( data, payload.status );
+        yield put( onFetchDb() );
+        yield put( fetchInsertDb( true ) );
+        console.log( 'insert' );
+    } catch ( e ) {
+        console.log( "error", e );
+    }
+}
+
+export const insertDbWatcher = createWatcher(
+    insertDbWorker,
+    INSERT_DB
 );
 
 function* fetchDbWorker() {

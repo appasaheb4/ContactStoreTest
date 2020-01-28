@@ -1,11 +1,19 @@
 // types and action creators: dispatched by components and sagas
 export const INITDB = "INITDB";
 export const GET_DATA_DB = "GET_DATA_DB";
+export const INSERT_DB = "INSERT_DB";
 export const DELETE_DB = "DELETE_DB";
 
 export const onInitDb = () => {
     return {
         type: INITDB
+    }
+}
+
+export const onInsertDb = args => {
+    return {
+        type: INSERT_DB,
+        ...args
     }
 }
 
@@ -24,6 +32,7 @@ export const onDeleteDb = () => {
 // types and action creators (saga): dispatched by saga workers
 export const FETCH_INITDB = "FETCH_INITDB";
 export const FETCH_DB = "FETCH_DB";
+export const FETCH_INSERT_DB = "FETCH_INSERT_DB";
 export const FETCH_DELETEDB = "FETCH_DELETEDB";
 
 export const fetchInitDb = result => {
@@ -36,6 +45,13 @@ export const fetchInitDb = result => {
 export const fetchDb = result => {
     return {
         type: FETCH_DB,
+        payload: { result }
+    }
+}
+
+export const fetchInsertDb = result => {
+    return {
+        type: FETCH_INSERT_DB,
         payload: { result }
     }
 }

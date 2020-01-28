@@ -14,7 +14,7 @@ import {
 
 //TODO: redux
 import { useDispatch, useSelector } from 'react-redux';
-import { onFetchDb } from "ContactStoreTestRedux/actions/storage";
+import { onInitDb, onFetchDb } from "ContactStoreTestRedux/actions/storage";
 
 
 
@@ -26,6 +26,7 @@ export default function Launch( props ) {
 
 
     const reload = async () => {
+        dispatch( onInitDb() )
         dispatch( onFetchDb() );
         // let rootViewController = await AsyncStorage.getItem( asyncStorageKeys.rootViewController );
         // rootViewController = JSON.parse( rootViewController );

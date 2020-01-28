@@ -7,12 +7,13 @@ import { all, spawn, call } from 'redux-saga/effects';
 import storageReducer from "./reducers/storage";
 
 // Watcher
-import { initDbWatcher, fetchDbWatcher, deleteDbWatcher } from "./sagas/storage";
+import { initDbWatcher, insertDbWatcher, fetchDbWatcher, deleteDbWatcher } from "./sagas/storage";
 
 const rootSaga = function* () {
 	const sagas = [
 		//storage 
 		initDbWatcher,
+		insertDbWatcher,
 		fetchDbWatcher,
 		deleteDbWatcher,
 	];

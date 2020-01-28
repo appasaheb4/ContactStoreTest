@@ -1,12 +1,14 @@
 import {
     FETCH_INITDB,
     FETCH_DB,
+    FETCH_INSERT_DB,
     FETCH_DELETEDB
 } from "../actions/storage";
 
 const INITIAL_STATE = {
     resInitDb: { loading: false },
     resDatabse: { loading: false },
+    resInsert: { loading: false },
     resDeleteDb: { loading: false }
 };
 
@@ -27,6 +29,15 @@ export default ( state = INITIAL_STATE, action: any ) => {
             return {
                 ...state,
                 resDatabse: {
+                    loading,
+                    data: [ ...action.payload.result ]
+                }
+            };
+        case FETCH_INSERT_DB:
+            loading = action.payload.result != null ? true : false
+            return {
+                ...state,
+                resInsert: {
                     loading,
                     ...action.payload.result
                 }

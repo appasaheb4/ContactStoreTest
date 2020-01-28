@@ -20,6 +20,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import CardView from 'react-native-cardview';
 import { SectionGrid } from 'react-native-super-grid';
 
+
 async function requestContactsPermission() {
     try {
         await PermissionsAndroid.request(
@@ -44,22 +45,28 @@ export default function ContactListModalContent( props ) {
 
 
     useEffect( () => {
-        requestContactsPermission();
-        Contacts.getAll( ( err, contacts ) => {
-            if ( err ) {
-                throw err;
-            }
-            setData( contacts );
-            console.log( { contacts } );
-        } );
-
+        getContactPermission();
     }, [] )
+
+    const getContactPermission = async () => {
+        let request = await requestContactsPermission();
+        if ( request == `granted` )
+            Contacts.getAll( ( err, contacts ) => {
+                if ( err ) {
+                    throw err;
+                }
+                setData( contacts );
+                console.log( { contacts } );
+            } );
+    }
+
 
 
     const press = ( item: any ) => {
         console.log( { item } );
-
     }
+
+
     return (
         <View style={ styles.modalContainer }>
             <View style={ styles.modalHeaderTitleView }>
@@ -67,102 +74,83 @@ export default function ContactListModalContent( props ) {
                     <View style={ { marginRight: 20 } }>
                         <Text style={ styles.modalHeaderTitleText }>{ 'Select Contact' }</Text>
                         <Text style={ styles.modalHeaderInfoText }>
-                            Select any one contact.
+                            Select any one contact long press.
                           </Text>
                     </View>
                 </View>
             </View>
             <View style={ { flex: 1 } }>
-                <ScrollView>
-                    <FlatList
-                        data={ data }
-                        extraData={ data }
-                        // horizontal
-                        //showsHorizontalScrollIndicator={ false }
-                        renderItem={ ( { item } ) => (
-                            <TouchableOpacity
-                                style={ {} }
-                                onPress={ () => {
-                                    press( item );
+
+                <FlatList
+                    data={ data }
+
+                    //extraData={ data }
+                    // horizontal
+                    //showsHorizontalScrollIndicator={ false }
+                    renderItem={ ( { item } ) => (
+                        <TouchableOpacity
+                            style={ {} }
+                            onPress={ () => {
+                                props.clickItem( item )
+                            } }
+                        >
+                            <View
+                                style={ {
+                                    flex: 1,
+                                    backgroundColor: '#ffffff',
+                                    marginLeft: 10,
+                                    marginRight: 10,
+                                    marginBottom: 10,
+                                    borderRadius: 10,
                                 } }
                             >
                                 <View
                                     style={ {
                                         flex: 1,
+                                        flexDirection: 'row',
                                         backgroundColor: '#ffffff',
-                                        marginLeft: 10,
-                                        marginRight: 10,
-                                        marginBottom: 10,
+                                        margin: 5,
                                         borderRadius: 10,
                                     } }
                                 >
+                                    { item.thumbnailPath != '' ? (
+                                        <Avatar
+                                            medium
+                                            rounded
+                                            source={ { uri: item.thumbnailPath } }
+                                        />
+                                    ) : ( <Avatar
+                                        medium
+                                        rounded
+                                        title={
+                                            item.givenName != null &&
+                                            item.givenName.charAt( 0 )
+                                        }
+                                    /> ) }
+                                    <Text
+                                        style={ [
+                                            { alignSelf: 'center', marginLeft: 10 },
+                                        ] }
+                                    >
+                                        { item.givenName } { item.familyName }
+                                    </Text>
+
                                     <View
                                         style={ {
                                             flex: 1,
-                                            flexDirection: 'row',
-                                            backgroundColor: '#ffffff',
-                                            margin: 5,
-                                            borderRadius: 10,
+                                            alignItems: 'flex-end',
+                                            justifyContent: 'center',
                                         } }
                                     >
-                                        { item.thumbnailPath != '' ? (
-                                            <Avatar
-                                                medium
-                                                rounded
-                                                source={ { uri: item.thumbnailPath } }
-                                            />
-                                        ) : ( <Avatar
-                                            medium
-                                            rounded
-                                            title={
-                                                item.givenName != null &&
-                                                item.givenName.charAt( 0 )
-                                            }
-                                        /> ) }
-                                        <Text
-                                            style={ [
-                                                { alignSelf: 'center', marginLeft: 10 },
-                                            ] }
-                                        >
-                                            { item.givenName } { item.familyName }
-                                        </Text>
 
-                                        <View
-                                            style={ {
-                                                flex: 1,
-                                                alignItems: 'flex-end',
-                                                justifyContent: 'center',
-                                            } }
-                                        >
-                                            { item.check ? (
-                                                <FontAwesome
-                                                    name="checkbox-marked"
-                                                    size={ 30 }
-
-                                                />
-                                            ) : (
-                                                    <FontAwesome
-                                                        name="checkbox-blank-outline"
-                                                        size={ 30 }
-
-                                                    />
-                                                ) }
-                                        </View>
                                     </View>
                                 </View>
-                            </TouchableOpacity>
+                            </View>
+                        </TouchableOpacity>
 
-                        ) }
-                        keyExtractor={ item => item.recordID }
-                    />
-                </ScrollView>
-            </View>
-            <View style={ { flex: 0.15, marginTop: 20 } }>
-                <Button
-                    style={ { justifyContent: "center", borderRadius: 10 } }
-                >
-                    <Text style={ { color: "#fff" } }>Add</Text>
-                </Button>
+                    ) }
+                    keyExtractor={ item => item.recordID.toString() }
+                />
             </View>
         </View>
     );
