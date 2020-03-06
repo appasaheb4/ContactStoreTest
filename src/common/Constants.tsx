@@ -8,18 +8,16 @@ export const localDB = {
 	}
 };
 
-
 const assetsImages = "../assets/images/";
 export const images = {
 	companyLogo: require( assetsImages + 'companylogo.png' )
 };
 
-// const assetsIcons = '../assets/icons/';
-// export const icons = {
-// 	dashboard: {
-// 		home: require( assetsIcons + 'dashboardScreen/home.png' ),
-// 	}
-// };
+const domin = Config.API_DOMAIN
+export const apiry = {
+	userList: domin + Config.API_USERLIST
+}
+
 
 export const asyncStorageKeys = {
 	rootViewController: 'rootViewController'

@@ -72,7 +72,7 @@ export default function ContactListModalContent( props ) {
             <View style={ styles.modalHeaderTitleView }>
                 <View style={ { flexDirection: 'row' } }>
                     <View style={ { marginRight: 20 } }>
-                        <Text style={ styles.modalHeaderTitleText }>{ 'Select Contact' }</Text>
+                        <Text style={ styles.modalHeaderTitleText }>{ 'User Details' }</Text>
                         <Text style={ styles.modalHeaderInfoText }>
                             Select any one contact long press.
                           </Text>

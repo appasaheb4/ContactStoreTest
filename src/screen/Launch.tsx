@@ -28,16 +28,8 @@ export default function Launch( props ) {
     const reload = async () => {
         dispatch( onInitDb() )
         dispatch( onFetchDb() );
-        // let rootViewController = await AsyncStorage.getItem( asyncStorageKeys.rootViewController );
-        // rootViewController = JSON.parse( rootViewController );
-        // console.log( { rootViewController } );
         setTimeout( async () => {
-            // if ( rootViewController != null ) {
-            //     props.navigation.navigate( rootViewController );
-            // } else {
-            //     props.navigation.replace( 'Login' );
-            // }
-            props.navigation.replace( 'ContactList' );
+            props.navigation.replace( 'UserList' );
         }, 3000 );
     }
 

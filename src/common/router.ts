@@ -7,13 +7,15 @@ import {
 import {
     Launch,
     ContactList,
-    ContactDetails
+    ContactDetails,
+    UserList
 } from 'ContactStoreTestScreen';
 
 
 const ContactStackNavigator = createStackNavigator(
     {
         Launch,
+        UserList,
         ContactList,
         ContactDetails
     },
