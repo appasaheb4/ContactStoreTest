@@ -1,4 +1,5 @@
 import { take, fork } from 'redux-saga/effects';
+import axios from "axios";
 
 export const createWatcher = function ( worker: any, type: any ) {
 	return function* () {
@@ -7,5 +8,18 @@ export const createWatcher = function ( worker: any, type: any ) {
 			yield fork( worker, action );
 		}
 	};
+};
+
+export const getUrl = async url => {
+	return await axios( {
+		method: "get",
+		url
+	} )
+		.then( ( response: any ) => {
+			return response;
+		} )
+		.catch( function ( error: any ) {
+			return error;
+		} );
 };
 

@@ -1,9 +1,9 @@
 // types and action creators: dispatched by components and sagas
-export const USERLIST = "USERLIST";
+export const USER_LIST = "USER_LIST";
 
 export const onUserList = args => {
     return {
-        type: USERLIST,
+        type: USER_LIST,
         ...args
     }
 }

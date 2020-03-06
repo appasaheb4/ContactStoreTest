@@ -5,9 +5,11 @@ import { all, spawn, call } from 'redux-saga/effects';
 
 // Reducer   
 import storageReducer from "./reducers/storage";
+import userReducer from "./reducers/user";
 
 // Watcher
 import { initDbWatcher, insertDbWatcher, fetchDbWatcher, deleteDbWatcher } from "./sagas/storage";
+import { userListWatcher } from "./sagas/user";
 
 const rootSaga = function* () {
 	const sagas = [
@@ -16,6 +18,8 @@ const rootSaga = function* () {
 		insertDbWatcher,
 		fetchDbWatcher,
 		deleteDbWatcher,
+		//user
+		userListWatcher
 	];
 	yield all(
 		sagas.map( saga =>
@@ -34,7 +38,8 @@ const rootSaga = function* () {
 };
 
 const rootReducer = combineReducers( {
-	storage: storageReducer
+	storage: storageReducer,
+	user: userReducer
 } );
 
 const sagaMiddleware = createSagaMiddleware();

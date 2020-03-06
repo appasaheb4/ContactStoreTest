@@ -3,7 +3,7 @@ import {
     View,
     StyleSheet,
     SafeAreaView,
-    FlatList,
+    FlatList
 } from 'react-native';
 import {
     Container,
@@ -20,50 +20,99 @@ import {
     Text,
     List,
     ListItem,
-    Icon,
+    Thumbnail,
     Picker,
-    Fab
+    Icon
 } from "native-base";
 import BottomSheet from 'reanimated-bottom-sheet';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Avatar } from 'react-native-elements';
+import { Avatar, SearchBar } from 'react-native-elements';
 
-import { ContactListModalContent, ModalHeader } from "ContactStoreTestComponents/Modal/ModalBottomSheet";
+import { ModalHeader } from "ContactStoreTestComponents/Modal/ModalBottomSheet";
 
+
+import { apiry } from '../common/Constants';
+import Styles from "ContactStoreTestCommon/Styles";
 
 //TODO: redux
 import { useDispatch, useSelector } from 'react-redux';
-import { onInsertDb } from "ContactStoreTestRedux/actions/storage";
+import { onUserList } from "ContactStoreTestRedux/actions/user";
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+
 
 export default function UserList( props ) {
     const [ data, setData ] = useState( [] );
+    const [ selectedUser, setSelectedUser ] = useState( {} );
 
     const ContactBottomSheet = useRef( null );
 
     const dispatch = useDispatch();
-    const { resInsert, resDatabse } = useSelector( state => state.storage );
+    const { resUser } = useSelector( state => state.user );
 
+    console.log( { resUser } );
+
+
+    useEffect( () => {
+        dispatch( onUserList( { url: apiry.userList } ) );
+    }, [] );
+    
+    useEffect( () => {
+        if ( resUser.loading )
+            setData( resUser.data )
+    }, [ resUser ] )
+
+
+
+
+
+
+    const searchFilterFunction = text => {
+        const newData = data.filter( item => {
+            const itemData = `${ item.first_name.toUpperCase() }${ item.last_name.toUpperCase() }`;
+            const textData = text.toUpperCase();
+            return itemData.indexOf( textData ) > -1;
+        } );
+        setData( newData );
+    };
+
+    const renderHeader = () => {
+        return (
+            <SearchBar
+                placeholder="Type Here..."
+                lightTheme
+                round
+                onChangeText={ text => searchFilterFunction( text ) }
+                autoCorrect={ false }
+            />
+        );
+    };
 
 
 
 
     const renderMobileVerificationModalContent = () => {
         return (
-            <ContactListModalContent
-                clickItem={ ( item: any ) => {
-                    if ( data.length == 0 )
-                        dispatch( onInsertDb( { data: [ item ], status: false } ) );
-                    else {
-                        data.push( item );
-                        dispatch( onInsertDb( { data: data, status: true } ) );
-                    }
-                    ( ContactBottomSheet as any ).current.snapTo( 0 );
-                }
-                }
-            />
+            <View style={ Styles.modalContainer }>
+                <View style={ Styles.modalHeaderTitleView }>
+                    <View style={ { flexDirection: 'row' } }>
+                        <View style={ { marginRight: 20 } }>
+                            <Text style={ Styles.modalHeaderTitleText }>{ 'User Details' }</Text>
+                        </View>
+                    </View>
+                </View>
+                <View style={ { flex: 1, alignItems: "center", marginTop: 20 } }>
+                    <Avatar
+                        size={ 100 }
+                        rounded
+                        source={ { uri: selectedUser.avatar } }
+                    />
+                    <Text style={ { fontSize: 22 } }>{ selectedUser.first_name } { selectedUser.last_name }</Text>
+                    <Text note>{ selectedUser.email }</Text>
+                </View>
+            </View>
         );
     };
 
@@ -77,85 +126,57 @@ export default function UserList( props ) {
         );
     };
 
-
-
     return (
         <Container>
             <SafeAreaView style={ [ styles.container ] }>
                 <Header>
                     <Left />
                     <Body style={ { flex: 8 } }>
-                        <Title style={ [ { fontSize: 18, alignSelf: 'flex-start' } ] }>User Details</Title>
+                        <Title style={ [ { fontSize: 18, alignSelf: 'flex-start' } ] }>Select User</Title>
                     </Body>
                     <Right />
                 </Header>
                 <Content
                     contentContainerStyle={ styles.container }
                 >
-                    <FlatList
-                        data={ data }
-                        renderItem={ ( { item } ) => (
-                            <View
-                                style={ {
-                                    flex: 1,
-                                    backgroundColor: '#ffffff',
-                                    marginLeft: 10,
-                                    marginRight: 10,
-                                    marginBottom: 10,
-                                    borderRadius: 10,
-                                } }
-                            >
-                                <View
-                                    style={ {
-                                        flex: 1,
-                                        flexDirection: 'row',
-                                        backgroundColor: '#ffffff',
-                                        margin: 5,
-                                        borderRadius: 10,
-                                    } }
-                                >
-                                    { item.thumbnailPath != '' ? (
-                                        <Avatar
-                                            medium
-                                            rounded
-                                            source={ { uri: item.thumbnailPath } }
-                                        />
-                                    ) : ( <Avatar
-                                        medium
-                                        rounded
-                                        title={
-                                            item.givenName != null &&
-                                            item.givenName.charAt( 0 )
-                                        }
-                                    /> ) }
-                                    <Text
-                                        style={ [
-                                            { alignSelf: 'center', marginLeft: 10 },
-                                        ] }
-                                    >
-                                        { item.givenName } { item.familyName }
-                                    </Text>
+                    <View style={ { padding: 10 } }>
+                        <Text note style={ { fontSize: 15 } }>{ ` ${ data.length } Users ` }</Text>
+                        <FlatList
+                            data={ data }
+                            renderItem={ ( { item } ) => (
+                                <TouchableOpacity onPress={ () => {
+                                    ( ContactBottomSheet as any ).current.snapTo( 1 );
+                                    setSelectedUser( item )
+                                } }>
+                                    <List>
+                                        <ListItem avatar>
+                                            <Left>
+                                                <Avatar
+                                                    rounded
+                                                    source={ { uri: item.avatar } }
+                                                />
+                                            </Left>
+                                            <Body>
+                                                <Text>{ item.first_name } { item.last_name }</Text>
+                                                <Text note>{ item.email }</Text>
+                                            </Body>
+                                        </ListItem>
+                                    </List>
+                                </TouchableOpacity>
 
-                                    <View
-                                        style={ {
-                                            flex: 1,
-                                            alignItems: 'flex-end',
-                                            justifyContent: 'center',
-                                        } }
-                                    >
-                                    </View>
-                                </View>
-                            </View>
-                        ) }
-                        keyExtractor={ item => item.recordID.toString() }
-                    />
+                            ) }
+                            ListHeaderComponent={ renderHeader }
+                            keyExtractor={ item => item.id.toString() }
+                        />
+                    </View>
+
                 </Content>
                 <BottomSheet
                     enabledInnerScrolling={ true }
                     //enabledGestureInteraction={ true }
                     //overdragResistanceFactor={ 0 }
                     ref={ ContactBottomSheet }
-                    snapPoints={ [ 80, hp( '90%' ) ] }
+                    snapPoints={ [ 100, hp( '90%' ) ] }
                     renderContent={ renderMobileVerificationModalContent }
                     renderHeader={ renderMobileVerificaitonModalHeader }
                 />
