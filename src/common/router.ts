@@ -6,18 +6,18 @@ import {
 
 import {
     Launch,
+    Login,
     ContactList,
-    ContactDetails,
-    UserList
+    List
 } from 'ContactStoreTestScreen';
 
 
 const ContactStackNavigator = createStackNavigator(
     {
         Launch,
-        UserList,
-        ContactList,
-        ContactDetails
+        Login,
+        List,
+        ContactList
     },
     {
         initialRouteName: 'Launch',

@@ -45,6 +45,8 @@ target 'ContactStoreTest' do
   
   
   
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk'
+
   post_install do |installer|
    installer.pods_project.targets.each do |target|
      if target.name == 'react-native-config'

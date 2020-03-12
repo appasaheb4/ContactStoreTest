@@ -18,7 +18,7 @@ import {
     Right,
     Body,
     Text,
-    List,
+    List as BaseList,
     ListItem,
     Thumbnail,
     Picker,
@@ -30,6 +30,7 @@ import {
     heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { Avatar, SearchBar } from 'react-native-elements';
+import { LoginButton } from 'react-native-fbsdk';
 
 import { ModalHeader } from "ContactStoreTestComponents/Modal/ModalBottomSheet";
 
@@ -40,10 +41,11 @@ import Styles from "ContactStoreTestCommon/Styles";
 //TODO: redux
 import { useDispatch, useSelector } from 'react-redux';
 import { onUserList } from "ContactStoreTestRedux/actions/user";
+import { onDeleteDb } from "ContactStoreTestRedux/actions/storage";
 import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 
 
-export default function UserList( props ) {
+export default function List( props ) {
     const [ data, setData ] = useState( [] );
     const [ selectedUser, setSelectedUser ] = useState( {} );
 
@@ -51,14 +53,14 @@ export default function UserList( props ) {
 
     const dispatch = useDispatch();
     const { resUser } = useSelector( state => state.user );
-
-    console.log( { resUser } );
+    const { resDatabse } = useSelector( state => state.storage );
+    console.log( { resDatabse } );
 
 
     useEffect( () => {
         dispatch( onUserList( { url: apiry.userList } ) );
     }, [] );
-    
+
     useEffect( () => {
         if ( resUser.loading )
             setData( resUser.data )
@@ -99,7 +101,7 @@ export default function UserList( props ) {
                 <View style={ Styles.modalHeaderTitleView }>
                     <View style={ { flexDirection: 'row' } }>
                         <View style={ { marginRight: 20 } }>
-                            <Text style={ Styles.modalHeaderTitleText }>{ 'User Details' }</Text>
+                            <Text style={ Styles.modalHeaderTitleText }>{ 'Details' }</Text>
                         </View>
                     </View>
                 </View>
@@ -131,8 +133,8 @@ export default function UserList( props ) {
             <SafeAreaView style={ [ styles.container ] }>
                 <Header>
                     <Left />
-                    <Body style={ { flex: 8 } }>
-                        <Title style={ [ { fontSize: 18, alignSelf: 'flex-start' } ] }>Select User</Title>
+                    <Body style={ { flex: 8, flexDirection: "row" } }>
+                        <Title style={ [ { fontSize: 18, alignSelf: 'flex-start' } ] }>Hi { ` ${ resDatabse.name }` }</Title>
                     </Body>
                     <Right />
                 </Header>
@@ -140,7 +142,7 @@ export default function UserList( props ) {
                     contentContainerStyle={ styles.container }
                 >
                     <View style={ { padding: 10 } }>
-                        <Text note style={ { fontSize: 15 } }>{ ` ${ data.length } Users ` }</Text>
+                        <Text note style={ { fontSize: 15 } }>{ ` ${ data.length } List ` }</Text>
                         <FlatList
                             data={ data }
                             renderItem={ ( { item } ) => (
@@ -148,7 +150,7 @@ export default function UserList( props ) {
                                     ( ContactBottomSheet as any ).current.snapTo( 1 );
                                     setSelectedUser( item )
                                 } }>
-                                    <List>
+                                    <BaseList>
                                         <ListItem avatar>
                                             <Left>
                                                 <Avatar
@@ -161,7 +163,7 @@ export default function UserList( props ) {
                                                 <Text note>{ item.email }</Text>
                                             </Body>
                                         </ListItem>
-                                    </List>
+                                    </BaseList>
                                 </TouchableOpacity>
 
                             ) }

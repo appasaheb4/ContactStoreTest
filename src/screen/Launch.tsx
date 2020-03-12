@@ -29,7 +29,7 @@ export default function Launch( props ) {
         dispatch( onInitDb() )
         dispatch( onFetchDb() );
         setTimeout( async () => {
-            props.navigation.replace( 'UserList' );
+            props.navigation.replace( 'Login' );
         }, 3000 );
     }
 

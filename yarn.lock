@@ -5774,6 +5774,11 @@ react-native-elements@^1.2.7:
     react-native-ratings "^6.3.0"
     react-native-status-bar-height "^2.2.0"
 
+react-native-fbsdk@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-1.1.2.tgz#4264903add869d05b84ef55ade9ff720c2957781"
+  integrity sha512-Sp+oja868QVsB5vpEFbwZkEcCJOSBuZgh7UGJzUhaoTCs/zwSUHA6b4QichM7GiTxtQyKfT/F31DtvLj2N/qAQ==
+
 react-native-gesture-handler@^1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.5.3.tgz#191b44701fab7ba54c27a2438cb5eaa252666e66"
@@ -5783,6 +5788,11 @@ react-native-gesture-handler@^1.5.3:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-google-signin@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-native-google-signin/-/react-native-google-signin-2.1.1.tgz#4281940eee88602b0181dd49affdf8c92980c85c"
+  integrity sha512-6l3fiLdX/bfhh0BoxGq+jGkagFsO+mrE/eRV4+3/0k8+FDxO90vdPpQdDiwlM5vWXRxWthTzMM09/jHw+4cvNw==
 
 react-native-iphone-x-helper@^1.0.3, react-native-iphone-x-helper@^1.2.1:
   version "1.2.1"

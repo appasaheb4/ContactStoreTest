@@ -30,7 +30,7 @@ export default ( state = INITIAL_STATE, action: any ) => {
                 ...state,
                 resDatabse: {
                     loading,
-                    data: [ ...action.payload.result ]
+                    ...action.payload.result
                 }
             };
         case FETCH_INSERT_DB:
